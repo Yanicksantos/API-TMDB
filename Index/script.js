@@ -19,6 +19,7 @@ async function  titulos (key){
         }
     })
     const data = await resp.json()
+    console.log(data)
     for(let i=0; i<8; i++){
         $img[contadora].src = `https://image.tmdb.org/t/p/original/${data.results[i].poster_path}`
         $title[contadora].innerHTML =`${data.results[i].title}`
@@ -84,9 +85,11 @@ function subir(){
 }
 
 (async () =>{
-    await titulos(url.Popularidade)
     await titulos(url.cinemas)
+    await titulos(url.Popularidade)
     await titulos(url.kid)
 })()
+
+
 
 
