@@ -7,11 +7,11 @@
 body{
     background-color: #0d253f;
     height: auto;
-    width: 100vw;
+    max-width: 100vw;
 }
 
 .container{
-    width: 800px;
+    max-width: 800px;
     height: 100%;
     margin: auto;
     margin-bottom: 100px;
@@ -105,15 +105,12 @@ i:hover{
     flex-direction: column;
 }
 
-.titulo1{
+.titulo{
     flex: 1;
     display: flex;
 }
 
-.titulo2{
-    flex: 1;
-    display: flex;
-}
+
 .movies{
     flex: 1;
     margin: 5px;
@@ -144,7 +141,7 @@ i:hover{
 }
 .year_classf{
     display: flex;
-    justify-content: space-around;
+    padding-left: 20px;
     align-items: center;
     margin-top: 5px;
     color: rgba(255,255,255,.2);
@@ -155,6 +152,7 @@ i:hover{
     border: 1px rgba(255,255,255,.2) solid;
     border-radius: 50%;
     padding: 3px;
+    display: none;
 }
 
 .containersearch{

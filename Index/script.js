@@ -4,7 +4,7 @@ const url = {
     cinemas: "https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=2022-04-01&primary_release_date.lte=2022-05-02&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt"
 }
 const $img = document.querySelectorAll(".img");
-const $year = document.querySelectorAll(".year");
+const $id = document.querySelectorAll(".classf");
 const $title = document.querySelectorAll(".movie-titile");
 const $container = document.querySelectorAll(".container")
 const $input = document.getElementById("input")
@@ -23,6 +23,7 @@ async function  titulos (key){
     for(let i=0; i<8; i++){
         $img[contadora].src = `https://image.tmdb.org/t/p/original/${data.results[i].poster_path}`
         $title[contadora].innerHTML =`${data.results[i].title}`
+        $id[contadora].innerHTML =`${data.results[i].id}`
         contadora++
     }
 }
@@ -76,8 +77,7 @@ async function Search(){
 }
 
 function subir(){
-    const posicoes = $movies[0].getBoundingClientRect();
-    console.log(posicoes)
+    //const posicoes = $movies[0].getBoundingClientRect(); - pegar as posições da tag
     window.scrollTo({
         top: 513,
         behavior: "smooth"
@@ -90,6 +90,13 @@ function subir(){
     await titulos(url.kid)
 })()
 
+$movies.forEach(element => {
+    element.addEventListener("click", () => {
+        exibirModal(element.children[2].children[1].textContent)
+    })
+});
 
 
-
+function exibirModal(id){
+    console.log(id)
+}
