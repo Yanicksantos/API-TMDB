@@ -46,6 +46,7 @@ async function Search(){
         console.log(result)
         $titlep.innerHTML = "TÍTULOS"
         if(result.results.length<8){
+            $movies[start].style.cssText="opacity: 1; box-shadow: 0 0 20px 0 rgba( 1, 180, 228, .1);"
             const control = 8 - result.results.length;
             for(let i=0; i<result.results.length; i++){
                 if(result.results[i].poster_path != null){
@@ -57,13 +58,13 @@ async function Search(){
                 start++
             }  
             for(let i=0; i<control; i++){
-                $movies[start].innerHTML =""
-                $movies[start].style.cssText="background: transparent;"
+                $movies[start].style.cssText="opacity: 0; box-shadow: none;"
                 start++
             }  
 
         }else{
             for(let i=0; i<8; i++){
+                $movies[i].style.cssText="opacity: 1; box-shadow: 0 0 20px 0 rgba( 1, 180, 228, .1);"
                 if(result.results[i].poster_path != null){
                     $img[i].src = `https://image.tmdb.org/t/p/original/${result.results[i].poster_path}`
                 }else{

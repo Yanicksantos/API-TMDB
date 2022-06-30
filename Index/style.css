@@ -115,6 +115,7 @@ i:hover{
     flex: 1;
     margin: 5px;
     background-color: rgba( 1, 180, 228, .1);
+    box-shadow: 0 0 20px 0 rgba( 1, 180, 228, .1);
 }
 .movies img{
     display: block;
@@ -124,6 +125,7 @@ i:hover{
     margin-bottom: 5px;
     margin-top: 5px;
     object-fit: contain;
+    
 }
 .movies img:hover{
   width: 100%;
