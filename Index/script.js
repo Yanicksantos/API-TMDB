@@ -1,7 +1,12 @@
+function exit(){
+    document.querySelector("#details").style.display="none"
+    document.querySelector(".transparent").style.display="none"
+}
+
 const url = {
-    kid: "https://api.themoviedb.org/3/discover/movie?certification_country=US&certification.lte=G&sort_by=popularity.desc&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt",
-    Popularidade: "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt",
-    cinemas: "https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=2022-04-01&primary_release_date.lte=2022-05-02&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt"
+    cinemas: "https://api.themoviedb.org/3/movie/upcoming?region=BR&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt",
+    kid: "https://api.themoviedb.org/3/movie/top_rated?api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt",
+    Popularidade: "https://api.themoviedb.org/3/movie/now_playing?region=BR&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt"
 }
 const $img = document.querySelectorAll(".img");
 const $id = document.querySelectorAll(".classf");
@@ -10,7 +15,11 @@ const $container = document.querySelectorAll(".container")
 const $input = document.getElementById("input")
 const $titlep = document.querySelector(".titlesearch")
 const $movies = document.querySelectorAll(".movies")
+const $year = document.querySelectorAll(".year")
+const $thumblain = document.querySelector(".thumblain")
+const $detailsmovies = document.querySelector(".detailsmovies")
 let contadora = 0;
+let year;
 
 async function  titulos (key){
     const resp = await fetch(key, {
@@ -24,9 +33,29 @@ async function  titulos (key){
         $img[contadora].src = `https://image.tmdb.org/t/p/original/${data.results[i].poster_path}`
         $title[contadora].innerHTML =`${data.results[i].title}`
         $id[contadora].innerHTML =`${data.results[i].id}`
+        year = new Date(data.results[i].release_date)
+        $year[contadora].innerHTML =`${year.getFullYear().toString()}`
         contadora++
     }
 }
+
+
+function subir(){
+    /*const posicoes = $movies[0].getBoundingClientRect(); //- pegar as posições da tag
+    console.log(posicoes)*/
+    window.scrollTo({
+        top: 513,
+        behavior: "smooth"
+    })
+}
+
+(async () =>{
+    await titulos(url.Popularidade)
+    await titulos(url.cinemas)
+    await titulos(url.kid)
+})()
+
+
 
 
 async function Search(){
@@ -35,6 +64,10 @@ async function Search(){
         let start = 0;
         for(let i =1; i< $container.length; i++){
             $container[i].style.cssText="display: none;"
+            if($img[i].classList.contains("imgclose")){
+                $img[i].classList.remove("imgclose")
+                $img[i].classList.add("img")
+            }
         }
         const url = `https://api.themoviedb.org/3/search/movie?api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt&query=${$input.value}`
         const response = await fetch(url, {
@@ -55,15 +88,23 @@ async function Search(){
                     $img[i].src = "https://th.bing.com/th/id/R.cbe2aa06fac86af474641c5cfdb8e09d?rik=GAs9xxSZBr8LVA&riu=http%3a%2f%2fwww.clubedossargentos.com.br%2fimg%2fdiretores%2funnamed.jpg&ehk=D7476M4VpXgRTdfOTL9Yx8MAOMHSun6fjZhA25cBMP0%3d&risl=&pid=ImgRaw&r=0"
                 }
                 $title[i].innerHTML =`${result.results[i].title}`
+                year = new Date(result.results[i].release_date)
+                $year[i].innerHTML =`${year.getFullYear().toString()}`
                 start++
             }  
             for(let i=0; i<control; i++){
+                $img[start].classList.remove("img")
+                $img[start].classList.add("imgclose")
                 $movies[start].style.cssText="opacity: 0; box-shadow: none;"
                 start++
             }  
 
         }else{
             for(let i=0; i<8; i++){
+                if($img[i].classList.contains("imgclose")){
+                    $img[i].classList.remove("imgclose")
+                    $img[i].classList.add("img")
+                }
                 $movies[i].style.cssText="opacity: 1; box-shadow: 0 0 20px 0 rgba( 1, 180, 228, .1);"
                 if(result.results[i].poster_path != null){
                     $img[i].src = `https://image.tmdb.org/t/p/original/${result.results[i].poster_path}`
@@ -71,33 +112,54 @@ async function Search(){
                     $img[i].src = "https://th.bing.com/th/id/R.cbe2aa06fac86af474641c5cfdb8e09d?rik=GAs9xxSZBr8LVA&riu=http%3a%2f%2fwww.clubedossargentos.com.br%2fimg%2fdiretores%2funnamed.jpg&ehk=D7476M4VpXgRTdfOTL9Yx8MAOMHSun6fjZhA25cBMP0%3d&risl=&pid=ImgRaw&r=0"
                 }
                 $title[i].innerHTML =`${result.results[i].title}`
+                year = new Date(result.results[i].release_date)
+                $year[i].innerHTML =`${year.getFullYear().toString()}`
             }
         }
 
     }
 }
 
-function subir(){
-    //const posicoes = $movies[0].getBoundingClientRect(); - pegar as posições da tag
-    window.scrollTo({
-        top: 513,
-        behavior: "smooth"
-    })
-}
-
-(async () =>{
-    await titulos(url.cinemas)
-    await titulos(url.Popularidade)
-    await titulos(url.kid)
-})()
-
 $movies.forEach(element => {
     element.addEventListener("click", () => {
-        exibirModal(element.children[2].children[1].textContent)
+        (element.style.opacity == "0")? 
+        event.preventDefault()
+        : exibirModal(element.children[2].children[1].textContent);
     })
 });
 
 
-function exibirModal(id){
-    console.log(id)
+async function exibirModal(id){
+    const movie = await fetch(`
+    https://api.themoviedb.org/3/movie/${id}?api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt
+    `)
+    const moviedata = await movie.json()
+    descer()
+    ligar()
+    console.log(moviedata)
+    $thumblain.style.cssText =`
+        background: rgba( 13, 37, 63, .9) url("https://image.tmdb.org/t/p/original/${moviedata.backdrop_path}") no-repeat center;
+        background-size: cover;
+    `
+    $detailsmovies.innerHTML =`
+        <p>Título: <span>${moviedata.title}</span></p>
+        <p>Título Original: <span>${moviedata.original_title}</span></p>
+        <p>tagline: <span>${moviedata.tagline}</span></p>
+        <p>overview: <span>${moviedata.overview}</span></p>
+        <p>popularidade: <span>${moviedata.popularity}</span></p>
+        <p>Data de Lançamento: <span>${moviedata.release_date}</span></p>    
+    `
+
+}
+
+function descer(){
+    window.scrollTo({
+        top: 200,
+        behavior: "smooth"
+    })
+}
+
+function ligar(){
+    document.querySelector("#details").style.display="block"
+    document.querySelector(".transparent").style.display="block"
 }
