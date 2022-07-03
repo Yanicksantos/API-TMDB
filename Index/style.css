@@ -272,3 +272,22 @@ input{
    border: none;
    cursor: pointer;
 }
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top */
+    padding-top: 30px; /* Location of the box */
+    overflow: scroll;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba( 14, 37, 63, .95); /* Black w/ opacity */
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    width: 50%;
+    min-height: 200px;
+  }

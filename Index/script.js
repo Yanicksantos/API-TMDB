@@ -1,7 +1,4 @@
-function exit(){
-    document.querySelector("#details").style.display="none"
-    document.querySelector(".transparent").style.display="none"
-}
+
 
 const url = {
     cinemas: "https://api.themoviedb.org/3/movie/upcoming?region=BR&api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt",
@@ -18,6 +15,7 @@ const $movies = document.querySelectorAll(".movies")
 const $year = document.querySelectorAll(".year")
 const $thumblain = document.querySelector(".thumblain")
 const $detailsmovies = document.querySelector(".detailsmovies")
+const $modalcontent = document.querySelector(".modal-content")
 let contadora = 0;
 let year;
 
@@ -70,11 +68,7 @@ async function Search(){
             }
         }
         const url = `https://api.themoviedb.org/3/search/movie?api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt&query=${$input.value}`
-        const response = await fetch(url, {
-            headers:{
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYjc4ZWMzN2EyMGRiNzZmYWRkMmE4ZDAwNWVmYzUxNSIsInN1YiI6IjYyOTIxNGY3ZmI4MzQ2MDA1MDcwZWQ1NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wcmFkAQHRjv4XyGuzjdwYHJveBiKD9LYa32om1XOGnc' 
-            }
-        })   
+        const response = await fetch(url)   
         const result = await response.json()
         console.log(result)
         $titlep.innerHTML = "TÍTULOS"
@@ -134,7 +128,6 @@ async function exibirModal(id){
     https://api.themoviedb.org/3/movie/${id}?api_key=fb78ec37a20db76fadd2a8d005efc515&language=pt
     `)
     const moviedata = await movie.json()
-    descer()
     ligar()
     console.log(moviedata)
     $thumblain.style.cssText =`
@@ -152,14 +145,15 @@ async function exibirModal(id){
 
 }
 
-function descer(){
-    window.scrollTo({
-        top: 200,
-        behavior: "smooth"
-    })
-}
 
-function ligar(){
-    document.querySelector("#details").style.display="block"
-    document.querySelector(".transparent").style.display="block"
+function ligar(){document.querySelector(".modal").style.display="block"
 }
+function exit(){document.querySelector(".modal").style.display="none"}
+
+
+
+/*
+*Criar vinculo do evento click com os dados da pesquisa
+*Melhorar o exit do modal
+*Adicionar algumas animações para melhorar o projeto
+*/
