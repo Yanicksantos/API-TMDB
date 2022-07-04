@@ -20,11 +20,7 @@ let contadora = 0;
 let year;
 
 async function  titulos (key){
-    const resp = await fetch(key, {
-        headers:{
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYjc4ZWMzN2EyMGRiNzZmYWRkMmE4ZDAwNWVmYzUxNSIsInN1YiI6IjYyOTIxNGY3ZmI4MzQ2MDA1MDcwZWQ1NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wcmFkAQHRjv4XyGuzjdwYHJveBiKD9LYa32om1XOGnc' 
-        }
-    })
+    const resp = await fetch(key)
     const data = await resp.json()
     console.log(data)
     for(let i=0; i<8; i++){
